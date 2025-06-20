@@ -1,4 +1,8 @@
-import {Player} from "../gameObjects/Player.js";
+import { Player } from "../gameObjects/Player.js";
+
+let gscore = 0;
+
+export { gscore };
 
 export class Game extends Phaser.Scene {
     constructor() {
@@ -43,6 +47,8 @@ export class Game extends Phaser.Scene {
 
         this.physics.add.collider(this.bombs, this.platforms);
         this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
+
+        this.nextLevel = false;
     }
 
 
@@ -65,15 +71,24 @@ export class Game extends Phaser.Scene {
     collectStar(player, star) {
         star.disableBody(true, true);
 
-        this.score += 10;
-        this.scoreText.setText("Score: " + this.score);
+        //this.score += 10;
+        gscore += 10;
+        this.scoreText.setText("Score: " + gscore);
 
         if (this.stars.countActive(true) === 0) {
-            this.stars.children.iterate(function (child) {
-                child.enableBody(true, child.x, 0, true, true);
-            });
+            if(this.nextLevel === true) {
+                this.time.delayedCall(1000, () => {
+                    this.scene.start('Level2');
+                });
+            } else {
+                this.stars.children.iterate(function (child) {
+                    child.enableBody(true, child.x, 0, true, true);
+                });
 
-            this.releaseBomb();
+                this.releaseBomb();
+
+                this.nextLevel = true;
+            }
         }
     }
 
