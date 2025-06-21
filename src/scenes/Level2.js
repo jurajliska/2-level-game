@@ -1,5 +1,5 @@
 import { Player } from "../gameObjects/Player.js";
-import { gscore } from "./Game.js";
+import { score } from "./Game.js";
 
 export class Level2 extends Phaser.Scene {
     constructor() {
@@ -36,7 +36,7 @@ export class Level2 extends Phaser.Scene {
         this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-        this.score = gscore;
+        this.score = score;
         this.scoreText = this.add.text(16, 16, "Score: " + this.score, { fontSize: "32px", fill: "#000" });
 
         this. bombs = this.physics.add.group();
@@ -84,7 +84,7 @@ export class Level2 extends Phaser.Scene {
         player.anims.play("turn");
 
         this.time.delayedCall(2000, () => {
-            this.scene.start("GameOver");
+            this.scene.start("GameOver", { score: this.score});
         });
     }
 

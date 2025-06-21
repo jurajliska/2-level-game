@@ -1,8 +1,8 @@
 import { Player } from "../gameObjects/Player.js";
 
-let gscore = 0;
+let score = 0;
 
-export { gscore };
+export { score };
 
 export class Game extends Phaser.Scene {
     constructor() {
@@ -40,7 +40,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-        this.score = 0;
+        //this.score = 0;
         this.scoreText = this.add.text(16, 16, "Score: 0", { fontSize: "32px", fill: "#000" });
 
         this. bombs = this.physics.add.group();
@@ -72,8 +72,8 @@ export class Game extends Phaser.Scene {
         star.disableBody(true, true);
 
         //this.score += 10;
-        gscore += 10;
-        this.scoreText.setText("Score: " + gscore);
+        score += 10;
+        this.scoreText.setText("Score: " + score);
 
         if (this.stars.countActive(true) === 0) {
             if(this.nextLevel === true) {
@@ -100,7 +100,7 @@ export class Game extends Phaser.Scene {
         player.anims.play("turn");
 
         this.time.delayedCall(2000, () => {
-            this.scene.start("GameOver");
+            this.scene.start("GameOver", { score: score });
         });
     }
 
