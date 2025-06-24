@@ -40,7 +40,7 @@ export class Game extends Phaser.Scene {
         this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-        //this.score = 0;
+        this.score = 0;
         this.scoreText = this.add.text(16, 16, "Score: 0", { fontSize: "32px", fill: "#000" });
 
         this. bombs = this.physics.add.group();
@@ -71,12 +71,12 @@ export class Game extends Phaser.Scene {
     collectStar(player, star) {
         star.disableBody(true, true);
 
-        //this.score += 10;
-        score += 10;
-        this.scoreText.setText("Score: " + score);
+        this.score += 10;
+        this.scoreText.setText("Score: " + this.score);
 
         if (this.stars.countActive(true) === 0) {
             if(this.nextLevel === true) {
+                score = this.score;
                 this.time.delayedCall(1000, () => {
                     this.scene.start('Level2');
                 });
@@ -100,7 +100,7 @@ export class Game extends Phaser.Scene {
         player.anims.play("turn");
 
         this.time.delayedCall(2000, () => {
-            this.scene.start("GameOver", { score: score });
+            this.scene.start("GameOver", { score: this.score });
         });
     }
 

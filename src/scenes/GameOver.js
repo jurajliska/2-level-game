@@ -23,5 +23,15 @@ export class GameOver extends Phaser.Scene {
             fontSize: 32, color: "#000000",
         }).setOrigin(0.5);
 
+        this.add.text(400, 100, "Press space to restart").setOrigin(0.5);
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+    }
+
+    update() {
+        if (this.cursors.space.isDown) {
+            this.scene.start("Game");
+        }
     }
 }
